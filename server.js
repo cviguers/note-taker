@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const noteData = require('./db/db.json');
+{ readDb, createNote, deleteNote } = require('./utils');
 
 // specify local and Heroku port
 const PORT = process.env.PORT || 3001;
@@ -15,12 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api', api);
+
 // static middleware pointing to public folder
 app.use(express.static('public'));
-
-// sets router to path
-app.use('/api', notesRouter);
-app.use('/', indexRouter);
 
 // GET route for homepage
 app.get('/', (req, res) =>

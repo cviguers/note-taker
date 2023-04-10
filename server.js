@@ -24,6 +24,16 @@ app.use(routes);
 // static middleware pointing to public folder
 app.use(express.static('public'));
 
+// GET route for notes page
+app.get('/notes', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
+);
+
+// GET route for index page
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
+
 //// server start up and listening
 // call express to listen for server instance, shows console log confirmation
 app.listen(PORT, () =>

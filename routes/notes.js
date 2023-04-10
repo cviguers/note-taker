@@ -1,35 +1,29 @@
-const notes = require('express').Router();
+const notesRouter = require('express').Router();
+const fs = require('fs')
 const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
+const path = require('path')
 
-// GET route for homepage
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-);
-
-
-// GET route for notes page
-app.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/notes.html'))
-);
+// GET route for /notes
+notesRouter.get('/notes', (req, res) => {
+  readFromFile('./db/notes.json').then((data) => res.json(JSON.parse(data)));
+});
 
 // GET request for reviews
-app.get('/api/notes', (req, res) => {
+notesRouter.get('/api/notes', (req, res) => {
   // Send a message to the client
   res.status(200).json(`${req.method} request received to get notes`);
 
   // log request to the terminal
   console.info(`${req.method} request received to get notes`);
-});
 
-// GET route for retrieving all the notes
-notes.get('/', (req, res) => {
-  console.info(`${req.method} request received for notes`);
-  readFromFile('./db/notes.json').then((data) => res.json(JSON.parse(data)));
+  readFromFile((data) => {
+    res.json(data);
+  })
 });
 
 // POST request to add a review
-app.post('/api/notes', (req, res) => {
+notesRouter.post('/api/notes', (req, res) => {
   // Log that a POST request was received
   console.info(`${req.method} request received to add a note`);
 
@@ -80,15 +74,10 @@ app.post('/api/notes', (req, res) => {
   }
 });
   
-app.delete('api/notes/:id', (req,res) => {
-  if (!req.params.id) res.sendStatus(400);
-  else {notes.delete(req.params.id);
-  res.sendStatus(200);}
-})
+// notesRouter.delete('api/notes/:id', (req,res) => {
+//   if (!req.params.id) res.sendStatus(400);
+//   else {notes.delete(req.params.id);
+//   res.sendStatus(200);}
+// })
 
-// GET route for all clicks
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-);  
-
-module.exports = notes;
+module.exports = notesRouter;

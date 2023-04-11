@@ -94,6 +94,8 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
+
+
 //// server start up and listening
 // call express to listen for server instance, shows console log confirmation
 app.listen(PORT, () =>

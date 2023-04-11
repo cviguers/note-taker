@@ -10,7 +10,7 @@ notesRouter.get('/notes', (req, res) => {
 });
 
 // GET request for reviews
-notesRouter.get('/api/notes', (req, res) => {
+app.get('/api/notes', (req, res) => {
   // Send a message to the client
   res.status(200).json(`${req.method} request received to get notes`);
 

@@ -1,6 +1,7 @@
 //// server configuration
 // import needed packages and files
 const express = require('express');
+const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
 const path = require('path');
 const fs = require('fs');
 
@@ -38,9 +39,7 @@ app.get('/api/notes', (req, res) => {
   // log request to the terminal
   console.info(`${req.method} request received to get notes`);
 
-  readFromFile((data) => {
-    res.json(data);
-  })
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 // POST request to add a review

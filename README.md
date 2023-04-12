@@ -46,10 +46,6 @@ Clone the repository from my github, download `node`, `-run npm i` to install de
 
 To start, run `npm start` in the root folder of the project, this will start your server. From here you can begin using the application
 
-<img src="./assets/images/node.png"/>
-
-<img src="./assets/images/product.png"/>
-
 ## License
 
 Licensed under the MIT license. For more information, visit: https://opensource.org/licenses/MIT

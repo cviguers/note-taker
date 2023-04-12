@@ -1,7 +1,6 @@
 //// server configuration
 // import needed packages and files
 const express = require('express');
-const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
 const path = require('path');
 const fs = require('fs');
 
@@ -24,25 +23,23 @@ app.use(express.static('public'));
 //// routes
 // GET route to send client to index page
 app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+  res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
 // GET route to send client to notes page
 app.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/notes.html'))
+  res.sendFile(path.join(__dirname, './public/notes.html'))
 );
 
 // read the db.json file and return all saved notes as JSON
-app.get('/api/notes', (req, res) => {
-  res.status(200).json(`${req.method} request received to get notes`);
-
-  // log request to the terminal
-  console.info(`${req.method} request received to get notes`);
-
-  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+app.get('/api/notes', (req, res) => { //Define a GET route for the '/notes' path
+  fs.readFile(path.join(__dirname, './db/db.json'),  (err, data) => {
+    if (err) throw err;
+    res.json(JSON.parse(data)) 
+  });
 });
 
-// POST request to add a review
+// POST request to add a note
 app.post('/api/notes', (req, res) => {
   // log that a POST request was received
   console.info(`${req.method} request received to add a note`);
@@ -92,6 +89,25 @@ app.post('/api/notes', (req, res) => {
   } else {
     res.status(500).json('Error in posting Note');
   }
+});
+
+// request to delete note
+app.delete('api/notes/:id', (req, res) => { 
+  // read current db
+  fs.readFile(path.join(__dirname, './db/db.json'), (err, data) => {
+    if (err) throw err;
+
+    // select note by assigned ID
+    let noteID = req.params.id; 
+    const newNote = JSON.parse(data);
+    const filteredNotes = newNote.filter(note => note.id !== noteID);
+
+    fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(filteredNotes), (err) => {
+      if (err) throw err;
+      console.log('Successfully deleted note');
+      res.status(204).end();
+    });
+  });
 });
 
 

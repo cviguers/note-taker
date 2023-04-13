@@ -1,41 +1,12 @@
 [
     {
-        "title": "Test Title",
-        "text": "Test text"
-    },
-    {
-        "title": "title",
-        "text": "content",
-        "note_id": "bfcd"
-    },
-    {
-        "title": "fruit",
-        "text": "apple\norange\nbanana\nraspberry",
-        "note_id": "ba7b"
-    },
-    {
-        "title": "title",
-        "text": "conent",
-        "note_id": "545b"
-    },
-    {
-        "title": "title",
-        "text": "hihihih",
+        "title": "Test",
+        "text": "test",
         "note_id": "0257"
     },
     {
-        "title": "aesf",
-        "text": "ASDA",
-        "note_id": "9db2"
-    },
-    {
-        "title": "title",
-        "text": "test",
-        "note_id": "7ad3"
-    },
-    {
-        "title": "daawdx",
-        "text": "adxsSAx",
-        "note_id": "bb71"
+        "title": "Testing!",
+        "text": "test test",
+        "note_id": "1d1d"
     }
 ]

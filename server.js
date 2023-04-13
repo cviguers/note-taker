@@ -91,21 +91,22 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-// request to delete note
-app.delete('api/notes/:id', (req, res) => { 
+// creating request to delete note
+app.delete('/api/notes/:id', (req, res) => { 
   // read current db
   fs.readFile(path.join(__dirname, './db/db.json'), (err, data) => {
     if (err) throw err;
 
     // select note by assigned ID
     let noteID = req.params.id; 
-    const newNote = JSON.parse(data);
-    const filteredNotes = newNote.filter(note => note.id !== noteID);
+    const parsedNotes = JSON.parse(data);
+    const filteredNotes = parsedNotes.filter(note => note.id !== noteID);
 
+    // write updated file back to db
     fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(filteredNotes), (err) => {
       if (err) throw err;
       console.log('Successfully deleted note');
-      res.status(204).end();
+      res.status(200).json({});
     });
   });
 });
